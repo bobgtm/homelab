@@ -1,0 +1,12 @@
+.git*
+
+**/.env
+**/*.env
+**/*.env.*
+
+src/bourbon/images/uploads/*
+src/usersc/vericode_secret.php
+/db-init
+
+**/desktop.ini
+**/.vscode
