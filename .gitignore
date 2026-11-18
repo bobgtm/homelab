@@ -1,0 +1,13 @@
+# General exclusions
+*.env.*
+*.env
+.env
+
+# App based exclusions
+src/bourbon/images/uploads/
+src/usersc/vericode_secret.php
+/db-init
+
+# Miscellaneous exclusions
+desktop.ini
+.vscode
