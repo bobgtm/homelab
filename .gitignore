@@ -11,3 +11,4 @@ src/usersc/vericode_secret.php
 # Miscellaneous exclusions
 desktop.ini
 .vscode
+*.swp

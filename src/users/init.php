@@ -1,5 +1,4 @@
 <?php
-die("Please edit the users/init.php with your database credentials.  You should also update the cookie and session names to something unique.  After that, you can delete the die statement at the top of the file and your site should work as expected.");
 
 
 define('USERSPICE_ACTIVE_LOGGING', false);
@@ -61,10 +60,10 @@ $GLOBALS['config'] = array(
 		// 'collation'    => 'utf8mb4_general_ci',	
 		'force_utc_mysql' => false,
 		'charset'      => 'utf8mb4',
-		'host'         => 'localhost',
-		'username'     => 'root',
-		'password'     => '',
-		'db'           => '5',
+		'host'         => getenv('DB_HOST'),
+		'username'     => getenv('DB_USER'),
+		'password'     => getenv('DB_PASSWORD'),
+		'db'           => getenv('DB_NAME'),
 	),
 	'remember'        => array(
 		'cookie_name'   => 'pmqesoxiw318374csb',
