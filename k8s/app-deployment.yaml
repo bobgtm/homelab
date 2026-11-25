@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barrelbook-app
+  namespace: barrelbook
+  labels:
+    app: barrelbook
+    component: web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: barrelbook
+      component: web 
+  template:
+    metadata:
+      labels:
+        app: barrelbook
+        component: web
+    spec:
+      containers:
+        - name: app
+          image: docker.io/library/barrelbook:dev
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 80
