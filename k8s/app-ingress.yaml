@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress 
+metadata: 
+  name: barrelbook
+  namespace: barrelbook
+  labels: 
+    app: barrelbook
+    component: web
+spec:
+  ingressClassName: traefik
+  rules:
+    - host: barrelbook.localhost
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend: 
+              service:
+                name: barrelbook
+                port: 
+                  name: http
