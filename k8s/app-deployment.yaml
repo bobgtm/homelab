@@ -8,6 +8,8 @@ metadata:
     component: web
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: barrelbook
@@ -18,6 +20,9 @@ spec:
         app: barrelbook
         component: web
     spec:
+      securityContext:
+        fsGroup: 33
+        fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: app
           image: docker.io/library/barrelbook:dev
@@ -43,3 +48,10 @@ spec:
                 secretKeyRef:
                   name: barrelbook-db
                   key: DB_PASSWORD
+          volumeMounts:
+            - name: uploads
+              mountPath: /var/www/html/bourbon/images/uploads
+      volumes: 
+        - name: uploads
+          persistentVolumeClaim: 
+            claimName: barrelbook-uploads
