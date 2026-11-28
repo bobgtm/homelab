@@ -1,0 +1,5 @@
+global: 
+  aliasHeadersStrategy: delete
+providers:
+  kubernetesCRD:
+    safeNaming: true
