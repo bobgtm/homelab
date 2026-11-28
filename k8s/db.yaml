@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: barrelbook-db
+  namespace: barrelbook
+  labels:
+    app: barrelbook
+    component: db
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: barrelbook
+      component: db
+  template:
+    metadata:
+      labels:
+        app: barrelbook
+        component: db
+    spec:
+      containers:
+        - name: mysql
+          image: mysql:8.4
+          ports:
+            - name: mysql
+              containerPort: 3306
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: barrelbook-db
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: barrelbook-db
+                  key: DB_NAME
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: barrelbook-db
+                  key: DB_USER
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: barrelbook-db
+                  key: DB_PASSWORD
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+            - name: init
+              mountPath: /docker-entrypoint-initdb.d
+              readOnly: true
+          readinessProbe:
+            exec:
+              command: ["mysqladmin", "ping", "-h", "127.0.0.1"]
+            initialDelaySeconds: 10
+            periodSeconds: 5
+      volumes:
+        - name: data
+          emptyDir: {}
+        - name: init
+          secret:
+            secretName: barrelbook-db-init
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  namespace: barrelbook
+  labels:
+    app: barrelbook
+    component: db
+spec:
+  type: ClusterIP
+  selector:
+    app: barrelbook
+    component: db
+  ports:
+    - name: mysql
+      port: 3306
+      targetPort: mysql
