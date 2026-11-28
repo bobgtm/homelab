@@ -60,7 +60,8 @@ spec:
             periodSeconds: 5
       volumes:
         - name: data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: barrelbook-db-data
         - name: init
           secret:
             secretName: barrelbook-db-init

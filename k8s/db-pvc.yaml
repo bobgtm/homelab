@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: barrelbook-db-data
+  namespace: barrelbook
+  labels:
+    app: barrelbook
+    component: db
+spec: 
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
